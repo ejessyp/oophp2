@@ -19,16 +19,11 @@ views:
 Om
 =========================
 
-This kurs is about technical web design. When I read the catalogues and get totally lost, where is view folder, header.php and footer.php. Instead there are lots of .md files and anax folder and config folder with lots of
-PHP files. What is all this? Then I try to google about framework and markdown and start to watch video from Mikael.
-Ok, the aim is not to understand the whole framework but just to decorate the web with CSS in kmom01
-and get familiar to anax flat framework for future study.
+The course Object-Oriented Web Technologies(oophp) focuses on object-oriented programming techniques in the programming language PHP. Classic object-oriented designs are managed together with object-oriented programming in web-based frameworks together with databases and device testing.
 
-Link to kursens [Github](https://github.com/dbwebb-se/oophp).
+Link to kursens [Github](https://github.com/dbwebb-se/oophp2).
 <br>
 Link to my [Redovisningssida på Github](https://github.com/ejessyp/).
 
 
-This picture tells about how all the parts integrated into together to fulfill a web design.
-
-[FIGURE src=image/Web-Design.jpg?w=300 caption="oophp."]
+[FIGURE src=image/php-leader.png caption="oophp."]
