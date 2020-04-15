@@ -86,6 +86,7 @@ $app->router->post("guess/play", function () use ($app) {
         $_SESSION["tries"] = $game->tries();
     }
 
+    // Cheat
     if ($cheat) {
         $_SESSION["cheat"] = $cheat;
     }
