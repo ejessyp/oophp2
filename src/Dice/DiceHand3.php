@@ -4,7 +4,7 @@ namespace Pan\Dice;
 /**
 * A dicehand, consisting of dices.
 */
-class DiceHand
+class DiceHand3
 {
     /**
     * @var Dice $dices   Array consisting of dices.
@@ -24,7 +24,7 @@ class DiceHand
         $this->values = [];
 
         for ($i = 0; $i < $dices; $i++) {
-            $this->dices[]  = new Dice();
+            $this->dices[]  = new DiceHistogram2();
             $this->values[] = null;
         }
     }
@@ -73,16 +73,6 @@ class DiceHand
     public function average()
     {
         return $this -> sum() / count($this->dices);
-    }
-
-    /**
-    * Get the average of all dices.
-    *
-    * @return  all dices.
-    */
-    public function getdices()
-    {
-        return $this -> dices;
     }
 
     /**

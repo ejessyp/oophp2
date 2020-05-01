@@ -93,5 +93,10 @@ return [
             "url" => "dice",
             "title" => "Dice Game",
         ],
+        [
+            "text" => "Dice Histogram",
+            "url" => "dice3/init",
+            "title" => "Dice Histogram",
+        ],
     ],
 ];
