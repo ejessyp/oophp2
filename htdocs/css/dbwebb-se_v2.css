@@ -7004,10 +7004,13 @@ a.rm-button.rm-clicked .rm-button-face-2 {
 }
 .bluebutton {
   background-color: blue;
-  width: 8em;
+  width: 10em;
 }
 .greybutton {
   background-color: lightgrey;
-  width: 8em;
+  width: 10em;
   pointer-events: none;
+}
+.thumb {
+  width: 100px;
 }

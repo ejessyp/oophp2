@@ -42,7 +42,7 @@ return [
                     ],
                     [
                         "text" => "Kmom05",
-                        "url" => "redovisning/5",
+                        "url" => "redovisning/kmom05",
                         "title" => "Redovisning för kmom05.",
                     ],
                     [
@@ -97,6 +97,21 @@ return [
             "text" => "Dice Histogram",
             "url" => "dice3/init",
             "title" => "Dice Histogram",
+        ],
+        [
+            "text" => "Movie",
+            "url" => "movie/admin",
+            "title" => "Movie Megamic",
+        ],
+        [
+            "text" => "MyTextFilter",
+            "url" => "textfilter",
+            "title" => "My Text Filter",
+        ],
+        [
+            "text" => "CMS",
+            "url" => "cms/showall",
+            "title" => "Content Mangement System",
         ],
     ],
 ];

@@ -43,7 +43,7 @@ return [
                     ],
                     [
                         "text" => "Kmom05",
-                        "url" => "redovisning/5",
+                        "url" => "redovisning/kmom05",
                         "title" => "Redovisning för kmom05.",
                     ],
                     [
@@ -98,6 +98,11 @@ return [
             "text" => "Dice Histogram",
             "url" => "dice3/init",
             "title" => "Dice Histogram",
+        ],
+        [
+            "text" => "Movie",
+            "url" => "movie/index",
+            "title" => "Movie Megamic",
         ],
     ],
 ];
