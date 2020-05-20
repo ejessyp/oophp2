@@ -12,7 +12,13 @@
 
 -- Ensure UTF8 as chacrter encoding within connection.
 SET NAMES utf8;
-
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`
+(
+  `id` INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  `username` CHAR(40) UNIQUE,
+  `password` CHAR(10)
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 --
 -- Create table for Content
@@ -33,7 +39,7 @@ CREATE TABLE `content`
   `published` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
- 
+
   -- MySQL version 5.5 and lower
   -- `published` DATETIME DEFAULT NULL,
   -- `created` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -17,7 +17,7 @@ if (!$resultset) {
     $id++; ?>
     <tr>
         <td><?= $row->id ?></td>
-        <td><a href="?route=<?= $row->path ?>"><?= $row->title ?></a></td>
+        <td><a href="page/<?= $row->path ?>"><?= $row->title ?></a></td>
         <td><?= $row->type ?></td>
         <td><?= $row->status ?></td>
         <td><?= $row->published ?></td>

@@ -11,7 +11,7 @@
     <a href="admin">Admin</a> |
     <a href="add">Create</a> |
     <a href="reset">Reset database</a> |
-    <a href="page">View pages</a> |
+    <a href="pages">View pages</a> |
     <a href="blog">View blog</a> |
 </navbar>
 

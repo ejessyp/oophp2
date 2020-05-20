@@ -19,18 +19,22 @@ function getGet($key, $default = null)
 /**
  * Get value from POST variable or return default value.
  *
- * @param string $key     to look for
- * @param mixed  $default value to set if key does not exists
+ * @param mixed $key     to look for, or value array
+ * @param mixed $default value to set if key does not exists
  *
  * @return mixed value from POST or the default value
  */
 function getPost($key, $default = null)
 {
+    if (is_array($key)) {
+        $key = array_flip($key);
+        return array_replace($key, array_intersect_key($_POST, $key));
+    }
+
     return isset($_POST[$key])
         ? $_POST[$key]
         : $default;
 }
-
 
 
 /**

@@ -43,4 +43,4 @@
 
 <h1>Showing off nl2br</h1>
 
-<pre><?= wordwrap(htmlentities($html3)) ?></pre>
+<pre><?= $html3 ?></pre>

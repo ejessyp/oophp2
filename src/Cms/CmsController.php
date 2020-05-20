@@ -29,6 +29,7 @@ class CmsController implements AppInjectableInterface
         // Use to initialise member variables.
         $this->db = $this->app->db;
         $this->db->connect();
+        $this->app->page->add("cms/header");
     }
 
     /**
@@ -46,20 +47,20 @@ class CmsController implements AppInjectableInterface
 
         $sql = "SELECT * FROM content;";
         $resultset = $this->db->executeFetchAll($sql);
-        $page->add("cms/header");
+        // $page->add("cms/header");
         $page->add("cms/show-all", ["resultset" => $resultset, ]);
         return $page->render(["title" => $title, ]);
     }
 
 
     /**
-    * This is the view page method get action, it handles:
+    * This is the view pages method action, it handles:
     *
     * ANY METHOD mountpoint/page
     *
     * @return object
     */
-    public function pageAction() : object
+    public function pagesAction() : object
     {
         $page = $this->app->page;
         $title = "View pages of contents";
@@ -76,147 +77,287 @@ WHERE type=?
 ;
 EOD;
         $resultset = $this->db->executeFetchAll($sql, ["page"]);
-        $page->add("cms/header");
+        // $page->add("cms/header");
         $page->add("cms/pages", ["resultset" => $resultset, ]);
         return $page->render(["title" => $title, ]);
     }
 
-    // /**
-    // * This is the search title method get action, it handles:
-    // * search movies by year
-    // *
-    // * @return object
-    // */
-    // public function searchyearActionGet() : object
-    // {
-    //     $title = "Search year of the movie";
-    //     $request = $this->app->request;
-    //
-    //     $year1 = $request->getGet("year1");
-    //     $year2 = $request->getGet("year2");
-    //     if ($year1 && $year2) {
-    //         $sql = "SELECT * FROM movie WHERE year >= ? AND year <= ?;";
-    //         $resultset = $this->db->executeFetchAll($sql, [$year1, $year2]);
-    //     } elseif ($year1) {
-    //         $sql = "SELECT * FROM movie WHERE year >= ?;";
-    //         $resultset = $this->db->executeFetchAll($sql, [$year1]);
-    //     } elseif ($year2) {
-    //         $sql = "SELECT * FROM movie WHERE year <= ?;";
-    //         $resultset = $this->db->executeFetchAll($sql, [$year2]);
-    //     }
-    //     $data = [
-    //         "year1" =>$year1 ?? null,
-    //         "year2" =>$year2 ?? null,
-    //         "res"=> $resultset ?? []
-    //     ];
-    //     $this->app->page->add("movie/header");
-    //     $this->app->page->add("movie/search-year", $data);
-    //     $this->app->page->add("movie/index", $data);
-    //     return $this->app->page->render([
-    //         "title" => $title,
-    //     ]);
-    // }
-    //
-    // /**
-    // * This is the admin database method get action, it handles:
-    // * add, edit and delete movie
-    // *
-    // * @return object
-    // */
-    // public function adminActionGet() : object
-    // {
-    //     $title = "Admin the movie";
-    //     $sql = "SELECT id, title FROM movie;";
-    //     $movies = $this->db->executeFetchAll($sql);
-    //     $data = [
-    //         "movies"=> $movies ?? []
-    //     ];
-    //     $this->app->page->add("movie/header");
-    //     $this->app->page->add("movie/movie-select", $data);
-    //     return $this->app->page->render([
-    //         "title" => $title,
-    //     ]);
-    // }
-    //
-    //
-    // /**
-    // * This admin POST action handles:
-    // * redirect to pages with different actions
-    // * like add, edit and delete.
-    // * @return object
-    // */
-    // public function adminActionPost() : object
-    // {
-    //     $request = $this->app->request;
-    //     $response = $this->app->response;
-    //     $session = $this->app->session;
-    //     $movieId = $request->getPost("movieId");
-    //     $doDelete = $request->getPost("doDelete");
-    //     $doAdd = $request->getPost("doAdd");
-    //     $doEdit = $request->getPost("doEdit");
-    //
-    //     if ($doDelete) {
-    //         $sql = "DELETE FROM movie WHERE id = ?;";
-    //         $this->db->execute($sql, [$movieId]);
-    //         return $response->redirect("movie/admin");
-    //     } elseif ($doEdit  && is_numeric($movieId)) {
-    //         $session->set("movieId", $movieId);
-    //         return $response->redirect("movie/edit");
-    //     } elseif ($doAdd) {
-    //         // get the last indert Id
-    //         $sql = "select max(id) as maxid from movie;";
-    //         $res = $this->db->executeFetchAll($sql);
-    //         $movieId = $res[0]->maxid + 1;
-    //         $session->set("movieId", $movieId);
-    //         return $response->redirect("movie/add");
-    //     }
-    // }
-    //
-    // /**
-    // * This is the edit movie method get action, it handles:
-    // * edit a movie
-    // *
-    // * @return object
-    // */
-    // public function editActionGet() : object
-    // {
-    //     $title = "Update a movie";
-    //     $session = $this->app->session;
-    //     $movieId = $session->get("movieId");
-    //     $page = $this->app->page;
-    //
-    //     $sql = "SELECT * FROM movie WHERE id = ?;";
-    //     $movie = $this->db->executeFetchAll($sql, [$movieId]);
-    //     $movie = $movie[0];
-    //
-    //     $page->add("movie/header");
-    //     $page->add("movie/movie-edit", ["movie" => $movie, ]);
-    //     return $page->render(["title" => $title,]);
-    // }
-    //
-    //
-    // /**
-    // * This is the edit movie method post action, it handles:
-    // * edit a movie
-    // *
-    // * @return object
-    // */
-    // public function editActionPost() : object
-    // {
-    //     $request = $this->app->request;
-    //     $response = $this->app->response;
-    //     $doSave = $request->getPost("doSave");
-    //     $movieId    = $request->getPost("movieId");
-    //     $movieTitle = $request->getPost("movieTitle");
-    //     $movieYear  = $request->getPost("movieYear");
-    //     $movieImage = $request->getPost("movieImage");
-    //
-    //     if ($doSave) {
-    //         $sql = "UPDATE movie SET title = ?, year = ?, image = ? WHERE id = ?;";
-    //         $this->db->execute($sql, [$movieTitle, $movieYear, $movieImage, $movieId]);
-    //         return $response->redirect("movie/admin");
-    //     }
-    // }
+    /**
+    * This is the page method Get action, it handles:
+    *
+    * ANY METHOD mountpoint/page
+    *
+    * @return object
+    */
+    public function pageActionGet($path) : object
+    {
+        $page = $this->app->page;
+        $title = "View page ". $path;
+        $sql = <<<EOD
+SELECT
+   *,
+   DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS modified_iso8601,
+   DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS modified
+FROM content
+WHERE
+   path = ?
+   AND type = ?
+   AND (deleted IS NULL OR deleted > NOW())
+   AND published <= NOW()
+;
+EOD;
+        $content = $this->db->executeFetch($sql, [$path, "page"]);
+        if (!$content) {
+            // $page->add("cms/header");
+            $page->add("cms/404");
+            $title = "404";
+            return $page->render(["title" => $title, ]);
+        }
+        $title = $content->title;
+        $arr = explode(",", $content->filter);
+        $content->filter = $arr;
+        var_dump($arr);
+        $textfilter = new \Pan\TextFilter\MyTextFilter();
+        $content->data = $textfilter->parse($content->data, $content->filter);
+        // $page->add("cms/header");
+        $page->add("cms/page", ["content" => $content, ]);
+        return $page->render(["title" => $title, ]);
+    }
+
+    public function variadicActionGet(...$value) : string
+    {
+        // Deal with the action and return a response.
+        return __METHOD__ . ", got '" . count($value) . "' arguments: " . implode(", ", $value);
+    }
+
+    /**
+    * This is the blog method  action, it handles:
+    *
+    * ANY METHOD mountpoint/blog
+    *
+    * @return object
+    */
+    public function blogActionGet(...$value) : object
+    {
+        if ($value) {
+            $page = $this->app->page;
+            $title = "View page ". $value[1];
+            $sql = <<<EOD
+SELECT
+        *,
+        DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS published_iso8601,
+        DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS published
+FROM content
+WHERE
+        slug = ?
+        AND type = ?
+        AND (deleted IS NULL OR deleted > NOW())
+        AND published <= NOW()
+        ORDER BY published DESC
+;
+EOD;
+            $content = $this->db->executeFetch($sql, [$value[1], "post"]);
+            if (!$content) {
+                $page->add("cms/404");
+                $title = "404";
+                return $page->render(["title" => $title, ]);
+            }
+            $title = $content->title;
+            $arr = explode(",", $content->filter);
+            $content->filter = $arr;
+            var_dump($arr);
+            $textfilter = new \Pan\TextFilter\MyTextFilter();
+            $content->data = $textfilter->parse($content->data, $content->filter);
+            $page->add("cms/blogpost", ["content" => $content, ]);
+            return $page->render(["title" => $title, ]);
+        }
+        $page = $this->app->page;
+        $title = "View blogs of contents";
+        $sql = <<<EOD
+SELECT
+    *,
+    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS published_iso8601,
+    DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS published
+FROM content
+WHERE type=?
+ORDER BY published DESC
+;
+EOD;
+        $resultset = $this->db->executeFetchAll($sql, ["post"]);
+        // $page->add("cms/header");
+        $page->add("cms/blog", ["resultset" => $resultset, ]);
+        return $page->render(["title" => $title, ]);
+    }
+
+
+//     /**
+//     * This is the blogpost method Get action, it handles:
+//     *
+//     * ANY METHOD mountpoint/page
+//     *
+//     * @return object
+//     */
+//     public function blogPostActionGet($slug) : object
+//     {
+//         $page = $this->app->page;
+//         $title = "View page ". $slug;
+//         $sql = <<<EOD
+// SELECT
+//     *,
+//     DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%dT%TZ') AS published_iso8601,
+//     DATE_FORMAT(COALESCE(updated, published), '%Y-%m-%d') AS published
+// FROM content
+// WHERE
+//     slug = ?
+//     AND type = ?
+//     AND (deleted IS NULL OR deleted > NOW())
+//     AND published <= NOW()
+//     ORDER BY published DESC
+// ;
+// EOD;
+//        $content = $this->db->executeFetch($sql, [$slug, "post"]);
+//        if (!$content) {
+//            $page->add("cms/header");
+//            $page->add("cms/404");
+//            $title = "404";
+//            return $page->render(["title" => $title, ]);
+//        }
+//        $title = $content->title;
+//        var_dump($content);
+//        $arr = explode(",", $content->filter);
+//        $content->filter = $arr;
+//        var_dump($arr);
+//        $textfilter = new \Pan\TextFilter\MyTextfilter();
+//        $content->data = $textfilter->parse($content->data, $content->filter);
+//
+//        $page->add("cms/header");
+//        $page->add("cms/blogpost", ["content" => $content, ]);
+//        return $page->render(["title" => $title, ]);
+//     }
+
+    /**
+    * This is the admin database method get action, it handles:
+    * edit and delete movie
+    *
+    * @return object
+    */
+    public function adminActionGet() : object
+    {
+        $title = "Admin content";
+        $sql = "SELECT * FROM content;";
+        $resultset = $this->db->executeFetchAll($sql);
+        $data = [
+            "resultset"=> $resultset ?? []
+        ];
+        $this->app->page->add("cms/header");
+        $this->app->page->add("cms/admin", $data);
+        return $this->app->page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+    * This is the delete method get action, it handles:
+    * delete content
+    *
+    * @return object
+    */
+    public function deleteActionGet($id) : object
+    {
+        $title = "Delete content";
+        $sql = "SELECT id, title FROM content WHERE id = ?;";
+        $content = $this->db->executeFetch($sql, [$id]);
+        $data = [
+            "content"=> $content
+        ];
+        $this->app->page->add("cms/header");
+        $this->app->page->add("cms/delete", $data);
+        return $this->app->page->render([
+            "title" => $title,
+        ]);
+    }
+
+    /**
+    * This is the delete method get action, it handles:
+    * delete content
+    *
+    * @return object
+    */
+    public function deleteActionPost($id) : object
+    {
+        $response = $this->app->response;
+        if (!is_numeric($id)) {
+            die("Not valid for content id.");
+        }
+
+        if (hasKeyPost("doDelete")) {
+            $sql = "UPDATE content SET deleted=NOW() WHERE id=?;";
+            $this->db->execute($sql, [$id]);
+            return $response->redirect("cms/showall");
+        }
+    }
+
+
+    /**
+    * This is the edit content method get action, it handles:
+    * edit a movie
+    *
+    * @return object
+    */
+    public function editActionGet($id) : object
+    {
+        $title = "Update content";
+        $page = $this->app->page;
+        $sql = "SELECT * FROM content WHERE id = ?;";
+        $content = $this->db->executeFetchAll($sql, [$id]);
+        $content = $content[0];
+        $data = [
+            "content"=> $content
+        ];
+
+        // $page->add("cms/header");
+        $page->add("cms/edit", $data);
+         return $page->render(["title" => $title,]);
+    }
+
+
+    /**
+    * This is the edit content method post action, it handles:
+    * edit a movie
+    *
+    * @return object
+    */
+    public function editActionPost($id) : object
+    {
+        $response = $this->app->response;
+        if (!is_numeric($id)) {
+            die("Not valid for content id.");
+        }
+        if (hasKeyPost("doSave")) {
+            $params = getPost([
+                "contentTitle",
+                "contentPath",
+                "contentSlug",
+                "contentData",
+                "contentType",
+                "contentFilter",
+                "contentPublish",
+                "contentId"
+            ]);
+
+            if (!$params["contentSlug"]) {
+                $params["contentSlug"] = slugify($params["contentTitle"]);
+            }
+
+            if (!$params["contentPath"]) {
+                $params["contentPath"] = null;
+            }
+
+            $sql = "UPDATE content SET title=?, path=?, slug=?, data=?, type=?, filter=?, published=? WHERE id = ?;";
+            $this->db->execute($sql, array_values($params));
+            return $response->redirect("cms/showall");
+        }
+    }
 
     /**
     * This is the add movie method get action, it handles:
@@ -249,7 +390,7 @@ EOD;
             $content->$key = $val;
         };
 
-        $page->add("cms/header");
+        // $page->add("cms/header");
         $page->add("cms/add", ["content" => $content, ]);
         return $page->render([
             "title" => $title,
@@ -271,7 +412,7 @@ EOD;
         if ($create) {
             $id = $request->getPost("contentId");
             $title = $request->getPost("contentTitle");
-            $path = $request->getPost("contentPath");
+            $path = $request->getPost("contentPath") ?? null;
             $slug = $request->getPost("contentSlug");
             $data = $request->getPost("contentData");
             $type = $request->getPost("contentType");
@@ -301,7 +442,7 @@ EOD;
         $data = [
             "output" => ""
         ];
-        $page->add("cms/header");
+        // $page->add("cms/header");
         $page->add("cms/reset", $data);
         return $page->render(["title" => $title, ]);
     }
@@ -319,22 +460,28 @@ EOD;
         $title = "Reset database CMS oophp";
         $page = $this->app->page;
         $request =  $this->app->request;
-        //
-        // $file = dirname(dirname(__DIR__)) . "\sql\content\setup.sql";
-        $file  = "sql/content/setup.sql";
-        $mysql  = "/usr/bin/mysql";
+
+        //$file  = "sql/content/setup.sql";
+        // $mysql  = "/usr/bin/mysql";
         $results = null;
 
+
         // Extract hostname and databasename from dsn
+        $config = require(ANAX_INSTALL_PATH . "/config/database.php");
         $dsnDetail = [];
-        preg_match("/mysql:host=(.+);dbname=([^;.]+)/", "mysql:host=127.0.0.1;dbname=oophp", $dsnDetail);
+        preg_match("/mysql:host=(.+);dbname=([^;.]+)/", $config["dsn"], $dsnDetail);
         $host = $dsnDetail[1];
         $database = $dsnDetail[2];
-        $login = "user";
-        $password = "pass";
+        $login = $config["username"];
+        $password = $config["password"];
+        if ($host !="127.0.0.1") {
+            $file = dirname(dirname(__DIR__)) . "/sql/content/setup.sql";
+        } else {
+            $file = "C:/Users/panqing/dbwebb-kurser/oophp/me/redovisa/sql/content/setup.sql";
+        }
 
         if ($request->getPost("reset")) {
-            $command = "$mysql -h{$host} -u{$login} -p{$password} $database < $file 2>&1";
+            $command = "mysql -h{$host} -u{$login} -p{$password} $database < $file 2>&1";
             $results = [];
             $status = null;
             exec($command, $res, $status);
@@ -347,7 +494,7 @@ EOD;
             "output" => $results ?? ""
         ];
 
-        $page->add("cms/header");
+        // $page->add("cms/header");
         $page->add("cms/reset", $data);
         return $page->render(["title" => $title, ]);
     }

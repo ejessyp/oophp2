@@ -18,14 +18,14 @@ $app->router->get("textfilter/filter", function () use ($app) {
     $html = $textfilter->parse($text, ["markdown"]);
 
     $text1 = file_get_contents($tempdir . "/text/bbcode.txt");
-    $html1 = $textfilter->parse($text1, ["bbcode"]);
+    $html1 = $textfilter->parse($text1, ["bbcode", "link"]);
 
     $text2 = file_get_contents($tempdir . "/text/clickable.txt");
     $html2 = $textfilter->parse($text2, ["link"]);
 
     $text3 = file_get_contents($tempdir . "/text/nl2br.txt");
 
-    $html3 = $textfilter->parse($text3, ["nl2br"]);
+    $html3 = $textfilter->parse($text3, ["markdown", "nl2br"]);
     $data = [
         "text" => $text ?? null,
         "html" => $html ?? null,

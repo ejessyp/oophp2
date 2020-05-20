@@ -83,8 +83,8 @@ class MyTextFilter
      *
      * @return string with formatted anchors.
      */
-     public function makeClickable($text)
-     {
+    public function makeClickable($text)
+    {
         return preg_replace_callback(
             '#\b(?<![href|src]=[\'"])https?://[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/))#',
             function ($matches) {
